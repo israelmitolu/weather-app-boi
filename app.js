@@ -5,6 +5,8 @@ window.addEventListener('load', () => {
     let tempDegree = document.querySelector(".temperature-degree");
     let locationTimezone = document.querySelector(".location-timezone");
     let tempIcon = document.querySelector(".temp-icon");
+    let temperatureSection = document.querySelector(".degree-wrapper");
+    let temperatureSpan = document.querySelector(".degree-wrapper span");
 
     //If the user ALLOWS the geolocation to load
     if (navigator.geolocation) {
@@ -23,11 +25,17 @@ window.addEventListener('load', () => {
                     const { name } = data; //Object destructuring Meaning to extract the value for name from the data- which is everything
                     const { feels_like } = data.main;
                     const { id, main, description } = data.weather[0];
-                    //This one means to get the values for id and main from the data.whether[0]
+                    //Above declaration means to get the values for id and main from the data.whether[0]
+                    
+                    //Converting from kelvin to celcius
+                    let realDegree = Math.floor(feels_like - 273.15);
 
+                    //Formula for celcius/ fahrenheit conversion
+                    let fahrenheit = (realDegree * 9 /5) + 32;
+
+                    tempDegree.textContent = realDegree;
                     locationTimezone.textContent = name;
                     console.log(data);
-                    tempDegree.textContent = Math.round(feels_like - 273.15);
                     tempDescription.textContent = description;
 
                     if(id < 250){
@@ -51,6 +59,17 @@ window.addEventListener('load', () => {
                     else if(id <  810){
                         tempIcon.src = './icons/icons8-partly-cloudy-day-100.png'
                     }
+
+                    //To change from Celcius to Fahrenheit
+                    temperatureSection.addEventListener('click', ()=>{
+                        if(temperatureSpan.textContent === 'C'){
+                            temperatureSpan.textContent = "F";
+                            tempDegree.textContent = Math.round(fahrenheit); 
+                        } else{
+                            temperatureSpan.textContent = "C";
+                            tempDegree.textContent = realDegree;
+                        }
+                    })
                 });
         });
 
@@ -58,6 +77,6 @@ window.addEventListener('load', () => {
     //If the user doesn't allow geolocation, display
     else {
         alert("Kindly allow location so you can get the weather forecast");
-    };
+    }
 
 });
