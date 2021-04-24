@@ -57,7 +57,7 @@ window.addEventListener('load', () => {
     }
     //If the user doesn't allow geolocation, display
     else {
-        alert("Kindly allow location so you can get the weather forecast")
+        alert("Kindly allow location so you can get the weather forecast");
     };
 
 });
